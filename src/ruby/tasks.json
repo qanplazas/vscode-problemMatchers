@@ -1,0 +1,82 @@
+// Available variables which can be used inside of strings.
+// ${workspaceRoot}: the root folder of the team
+// ${file}: the current opened file
+// ${fileBasename}: the current opened file's basename
+// ${fileDirname}: the current opened file's dirname
+// ${fileExtname}: the current opened file's extension
+// ${cwd}: the current working directory of the spawned process
+// A task runner that calls the Typescript compiler (tsc) and
+// Compiles a HelloWorld.ts program
+{
+	"version": "0.1.0",
+
+	// The command is tsc. Assumes that tsc has been installed using npm install -g typescript
+	"command": "ruby",
+	// The command is a shell script
+	"isShellCommand": true,
+
+	// Show the output window only if unrecognized errors occur.
+	"showOutput": "silent",
+
+	// args is the HelloWorld program to compile.
+	"args": [
+		"${file}"
+	],
+	"tasks": [
+		{
+			"taskName": "run-tests",
+			"isTestCommand": true,
+			"isBuildCommand": false,
+			"args": [
+				"${file}"
+			],
+			"problemMatcher": [
+				{
+					"fileLocation": "absolute",
+					"pattern": [
+						{
+							"regexp": "(\\w+\\s+)\\[(.*):(\\d+)\\]",
+							"file": 2,
+							"location": 3
+						},
+						{
+							"regexp": "(.+)"
+						},
+						{
+							"regexp": "(.*)(\\s*Actual\\:.+)",
+							"message": 2
+						}
+					]
+				},
+				{
+					"fileLocation": "absolute",
+					"pattern": [
+						{
+							"regexp": "(.+Error)\\:(.+)",
+							"code": 1,
+							"message": 2
+						},
+						{
+							"regexp": "\\s+(.+):(\\d+):in",
+							"line": 2,
+							"file": 1
+						}		
+					]
+				},
+				{
+					"fileLocation": "absolute",
+					"pattern": [
+						{
+						
+							"regexp": "(^.*)\\:(\\d+)(.*)",
+							"file": 1,
+							"line": 2,
+							"message": 3
+						}
+					]
+				}
+			]
+		}
+	],
+	"owner": "ruby"
+}
